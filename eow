@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+
+"""The End of the World"""
+
+import sys
+from datetime import datetime
+from pathlib import Path
+import requests
+from bs4 import BeautifulSoup
+import feedparser
+import dominate
+from dominate.tags import a, h1, h2, link, p
+from dominate.util import raw
+
+# add feed
+if len(sys.argv) == 2:
+    profile = requests.get(sys.argv[1], timeout=None)
+    soup = BeautifulSoup(profile.text, "html.parser")
+    did = soup.find(id="bsky_did")
+    print("Feed URL:")
+    feed = "https://bsky.app/profile/" + did.text + "/rss"
+    print(feed)
+    with open("users.txt", "a", encoding="utf-8") as users:
+        users.write(feed + "\n")
+    sys.exit()
+
+# data folder
+data_path = Path.cwd() / "data"
+
+if data_path.is_dir():
+    pass
+else:
+    data_path.mkdir()
+    print("data path created")
+
+
+
+PREVIOUS = ""
+current_date = datetime.now().strftime("%A %d %B %Y")
+
+# build doc head
+doc = dominate.document(title="The End of the World")
+with doc.head:
+    raw('<meta charset="UTF-8">')
+    raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
+    link(rel="stylesheet", href="style.css")
+    doc += h1("The End of the World")
+    doc += p(current_date)
+
+with open(Path("users.txt"), encoding="utf-8") as file:
+    for line in file:
+        d = feedparser.parse(line.strip())
+        rss_title = d.feed.title.split(".")
+        file_title = rss_title[0].strip("@ ")
+        skeet_pub = d.entries[0].published.strip("0+ ")
+        skeet_link = d.entries[0].link
+        # bail early
+        if not 'summary' in d.entries[0]:
+            print(file_title + "no summary")
+        else:
+            # check if seen
+            data_file = data_path / file_title
+            if Path(data_file).is_file():
+                with open(Path(data_file), "r", encoding="utf-8") as dataRead:
+                    PREVIOUS = dataRead.read()
+            if d.entries[0].link == PREVIOUS:
+                print(file_title + ": nothing new")
+            else:
+                # build out doc
+                skeet_text = d.entries[0].summary
+                doc += h2(rss_title[0])
+                doc += p(a(skeet_pub,href=skeet_link))
+                doc += p(skeet_text)
+                with open(Path(data_file), "w", encoding="utf-8") as db:
+                    db.write(d.entries[0].link)
+
+
+# debug output
+print(doc)
+
+# # create file
+with open("theendoftheworld.html", "w", encoding="utf-8") as outputFile:
+    outputFile.write(doc.render())

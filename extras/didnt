@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+# didnt
+import sys
+import requests
+from bs4 import BeautifulSoup
+
+profile = requests.get(sys.argv[1])
+soup = BeautifulSoup(profile.text, "html.parser")
+did = soup.find(id="bsky_did")
+print("Feed URL:")
+
+feed = "https://bsky.app/profile/" + did.text + "/rss"
+print(feed)
+
+with open("users.txt", "a", encoding="utf-8") as users:
+    users.write(feed + "\n")
