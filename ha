@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""The End of the World"""
+"""Hurry Asteroid"""
 
 import sys
 from datetime import datetime
@@ -17,11 +17,13 @@ if len(sys.argv) == 2:
     profile = requests.get(sys.argv[1], timeout=None)
     soup = BeautifulSoup(profile.text, "html.parser")
     did = soup.find(id="bsky_did")
-    print("Feed URL:")
+    handle = soup.find(id="bsky_handle")
     feed = "https://bsky.app/profile/" + did.text + "/rss"
-    print(feed)
+    print("Adding User:")
+    print("Handle: " + handle.text)
+    print("Feed: " + feed)
     with open("users.txt", "a", encoding="utf-8") as users:
-        users.write(feed + "\n")
+        users.write(handle.text + " " + feed + "\n")
     sys.exit()
 
 # data folder
@@ -33,8 +35,6 @@ else:
     data_path.mkdir()
     print("data path created")
 
-
-
 PREVIOUS = ""
 current_date = datetime.now().strftime("%A %d %B %Y")
 
@@ -44,12 +44,13 @@ with doc.head:
     raw('<meta charset="UTF-8">')
     raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     link(rel="stylesheet", href="style.css")
-    doc += h1("The End of the World")
+    doc += h1("Hurry Asteroid")
     doc += p(current_date)
 
 with open(Path("users.txt"), encoding="utf-8") as file:
     for line in file:
-        d = feedparser.parse(line.strip())
+        short_line = line.split(" ")
+        d = feedparser.parse(short_line[1].strip())
         rss_title = d.feed.title.split(".")
         file_title = rss_title[0].strip("@ ")
         skeet_pub = d.entries[0].published.strip("0+ ")
@@ -79,5 +80,5 @@ with open(Path("users.txt"), encoding="utf-8") as file:
 print(doc)
 
 # # create file
-with open("theendoftheworld.html", "w", encoding="utf-8") as outputFile:
+with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())

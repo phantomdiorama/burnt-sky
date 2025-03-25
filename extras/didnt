@@ -7,10 +7,12 @@ from bs4 import BeautifulSoup
 profile = requests.get(sys.argv[1])
 soup = BeautifulSoup(profile.text, "html.parser")
 did = soup.find(id="bsky_did")
-print("Feed URL:")
+handle = soup.find(id="bsky_handle")
+print("Adding User:")
+print("Handle: " + handle.text)
 
 feed = "https://bsky.app/profile/" + did.text + "/rss"
-print(feed)
+print("Feed: " + feed)
 
 with open("users.txt", "a", encoding="utf-8") as users:
-    users.write(feed + "\n")
+    users.write(handle.text + " " + feed + "\n")
