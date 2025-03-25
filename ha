@@ -14,7 +14,7 @@ from dominate.util import raw
 
 # add feed
 if len(sys.argv) == 2:
-    profile = requests.get(sys.argv[1], timeout=None)
+    profile = requests.get(sys.argv[1], timeout=5)
     soup = BeautifulSoup(profile.text, "html.parser")
     did = soup.find(id="bsky_did")
     handle = soup.find(id="bsky_handle")
