@@ -1,0 +1,29 @@
+body {
+  font-family: arial, sans-serif;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 40em;
+  padding: 0 1em;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 1.25em 0 0.5em 0;
+  line-height: 1.2;
+}
+a:link {
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: black;
+    color: white;
+  }
+  a:link {
+    color: lime;
+  }
+  a:visited {
+    color: red;
+  }
+}
