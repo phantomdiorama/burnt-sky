@@ -12,6 +12,15 @@ import dominate
 from dominate.tags import a, h1, h2, link, p
 from dominate.util import raw
 
+# create data folder if needed
+data_path = Path.home() / ".config" / "hurryasteroid"
+
+if data_path.is_dir():
+    pass
+else:
+    data_path.mkdir()
+    print("data path created")
+
 # add feed
 if len(sys.argv) == 2:
     profile = requests.get(sys.argv[1], timeout=5)
@@ -22,32 +31,24 @@ if len(sys.argv) == 2:
     print("Adding User:")
     print("Handle: " + handle.text)
     print("Feed: " + feed)
-    with open("users.txt", "a", encoding="utf-8") as users:
+    with open(data_path / "users.txt", "a", encoding="utf-8") as users:
         users.write(handle.text + " " + feed + "\n")
     sys.exit()
 
-# data folder
-data_path = Path.cwd() / "data"
-
-if data_path.is_dir():
-    pass
-else:
-    data_path.mkdir()
-    print("data path created")
 
 PREVIOUS = ""
-current_date = datetime.now().strftime("%A %d %B %Y")
 
 # build doc head
-doc = dominate.document(title="The End of the World")
+current_date = datetime.now().strftime("%A %d %B %Y")
+doc = dominate.document(title="Hurry Asteroid")
 with doc.head:
     raw('<meta charset="UTF-8">')
     raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     link(rel="stylesheet", href="style.css")
-    doc += h1("The End of the World")
+    doc += h1("Hurry Asteroid")
     doc += p(current_date)
 
-with open(Path("users.txt"), encoding="utf-8") as file:
+with open(data_path / "users.txt", encoding="utf-8") as file:
     for line in file:
         short_line = line.split(" ")
         d = feedparser.parse(short_line[1].strip())
@@ -80,5 +81,5 @@ with open(Path("users.txt"), encoding="utf-8") as file:
 print(doc)
 
 # # create file
-with open("endoftheworld.html", "w", encoding="utf-8") as outputFile:
+with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())
