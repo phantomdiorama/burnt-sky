@@ -76,10 +76,15 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
                 with open(Path(data_file), "w", encoding="utf-8") as db:
                     db.write(d.entries[0].link)
 
+# if nothing
+if "h2" not in doc:
+    print(h2)
+    doc += h2("No depressing posts. Try thinking about:")
+    doc += p('"He needs his glasses"')
 
 # debug output
 print(doc)
 
-# # create file
+# kkcreate file
 with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())

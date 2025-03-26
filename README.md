@@ -4,7 +4,7 @@
 
 ## Install
 
-run `install.sh` (or just drop `hurryasteroid` in PATH)
+run `install.sh`
 
 ## Use
 
@@ -20,7 +20,7 @@ Build page with:
 hurryasteroid
 ```
 
-Schedule with cron (hourly):
+Schedule with cron:
 
 ```
 0 * * * *  ~/.local/bin/hurryasteroid
