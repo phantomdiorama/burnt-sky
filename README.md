@@ -1,2 +1,3 @@
 # end-of-the-world
-bluesky viewer
+
+> "Don't they know it's the end of the world?"
