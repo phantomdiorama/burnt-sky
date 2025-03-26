@@ -1,5 +1,5 @@
 body {
-  font-family: serif;
+  font-family: sans-serif;
   line-height: 1.5;
   margin: 0 auto;
   max-width: 40em;
@@ -8,7 +8,9 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 1.25em 0 0.5em 0;
   line-height: 1.2;
-  font-family: sans-serif;
+}
+h1 {
+  font-family: boldonse, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   body {

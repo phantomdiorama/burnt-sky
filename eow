@@ -44,7 +44,7 @@ with doc.head:
     raw('<meta charset="UTF-8">')
     raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     link(rel="stylesheet", href="style.css")
-    doc += h1("Hurry Asteroid")
+    doc += h1("The End of the World")
     doc += p(current_date)
 
 with open(Path("users.txt"), encoding="utf-8") as file:
@@ -80,5 +80,5 @@ with open(Path("users.txt"), encoding="utf-8") as file:
 print(doc)
 
 # # create file
-with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
+with open("endoftheworld.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())
