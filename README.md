@@ -26,6 +26,3 @@ Schedule with cron:
 0 * * * *  ~/.local/bin/hurryasteroid
 ```
 
-## Thanks
-
-Asteroid image by Good Stuff No Nonsense [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

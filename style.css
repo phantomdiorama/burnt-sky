@@ -1,5 +1,6 @@
 body {
   font-family: arial, sans-serif;
+  font-size: 17px;
   line-height: 1.5;
   margin: 0 auto;
   max-width: 40em;
@@ -9,16 +10,19 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1.25em 0 0.5em 0;
   line-height: 1.2;
 }
+h1 {
+  font-family: boldonse, arial, sans-serif;
+}
 a {
   color: red;
   text-decoration: none;
 }
 @media (prefers-color-scheme: dark) {
   body {
-    color: white;
-    background-color: black;
+    color: #ABB2BF;
+    background-color: #282C34;
   }
   a {
-  color: lime;
+  color: #E06C75;
   }
 }

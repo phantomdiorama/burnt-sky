@@ -13,6 +13,3 @@ print("Handle: " + handle.text)
 
 feed = "https://bsky.app/profile/" + did.text + "/rss"
 print("Feed: " + feed)
-
-with open("users.txt", "a", encoding="utf-8") as users:
-    users.write(handle.text + " " + feed + "\n")

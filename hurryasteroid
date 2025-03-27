@@ -79,7 +79,7 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
 # if nothing
 if "h2" not in doc:
     print(h2)
-    doc += h2("No depressing posts. Try thinking about:")
+    doc += h2("Sorry, no depressing posts. Try thinking about:")
     doc += p('"He needs his glasses"')
 
 # debug output
