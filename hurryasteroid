@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 import feedparser
 import dominate
-from dominate.tags import a, h1, h2, link, p
+from dominate.tags import a, footer, h1, h2, hr, link, p
 from dominate.util import raw
 
 # create data folder if needed
@@ -79,12 +79,16 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
 # if nothing
 if "h2" not in doc:
     print(h2)
-    doc += h2("Sorry, no depressing posts. Try thinking about:")
-    doc += p('"He needs his glasses"')
+    doc += h2("Nobody has posted")
+    doc += p("Or the world has ended")
+
+# footer
+doc += hr()
+doc += footer("Version 0.1 - ", a("Github",href="https://github.com/phantomdiorama/hurryasteroid"))
 
 # debug output
 print(doc)
 
-# kkcreate file
+# create file
 with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())

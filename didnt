@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # didnt
+# get rss feed from handle
+
 import sys
 import requests
 from bs4 import BeautifulSoup
