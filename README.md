@@ -39,4 +39,10 @@ Schedule with cron:
 0 * * * *  ~/.local/bin/hurryasteroid
 ```
 
-Note: You probably shouldn't run this more frequently than hourly
+Note: You probably shouldn't run this more frequently than hourly. Be kind.
+
+## Future
+
+- [ ] Faster
+- [ ] Muting (if not conflict with above)
+- [ ] Windows executable (depends how annoying to implement)
