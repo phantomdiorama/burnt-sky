@@ -57,7 +57,7 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
         skeet_pub = d.entries[0].published.strip("0+ ")
         skeet_link = d.entries[0].link
         # bail early
-        if not 'summary' in d.entries[0]:
+        if "summary" not in d.entries[0]:
             print(file_title + "no summary")
         else:
             # check if seen
@@ -71,7 +71,7 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
                 # build out doc
                 skeet_text = d.entries[0].summary
                 doc += h2(rss_title[0])
-                doc += p(a(skeet_pub,href=skeet_link))
+                doc += p(a(skeet_pub, href=skeet_link))
                 doc += p(skeet_text)
                 with open(Path(data_file), "w", encoding="utf-8") as db:
                     db.write(d.entries[0].link)
@@ -84,7 +84,10 @@ if "h2" not in doc:
 
 # footer
 doc += hr()
-doc += footer("Version 0.1 - ", a("Github",href="https://github.com/phantomdiorama/hurryasteroid"))
+doc += footer(
+    "Version 0.1 - ",
+    a("Github", href="https://github.com/phantomdiorama/hurryasteroid"),
+)
 
 # debug output
 print(doc)
