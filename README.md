@@ -50,11 +50,16 @@ Also you shouldn't run this more frequently than hourly. Be kind.
 
 ## FAQ
 
-Q: What does it show?\
+Q: What is displayed?\
 A: Posts and quoted posts. This is equivalent to the Only Posts feed.
 
 Q: Images?\
 A: No. And not likely in the future.
+
+Q: I get an error when adding @coolexample.user?\
+A: They may be limiting their visibility. Can you
+view the account when not logged in? If not, it won't
+visible in Hurry Asteroid either.
 
 Q: How I do I remove a user?\
 A: edit `~/.config/hurryasteroid/users.txt`

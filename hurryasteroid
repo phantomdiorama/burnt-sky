@@ -90,7 +90,7 @@ doc += footer(
 )
 
 # debug output
-print(doc)
+# print(doc)
 
 # create file
 with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
