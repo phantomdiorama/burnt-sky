@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Hurry Asteroid"""
+"""Burnt Sky"""
 
 import sys
 from datetime import datetime
@@ -13,7 +13,7 @@ from dominate.tags import a, footer, h1, h2, hr, link, p
 from dominate.util import raw
 
 # create data folder if needed
-data_path = Path.home() / ".config" / "hurryasteroid"
+data_path = Path.home() / ".config" / "burntsky"
 
 if data_path.is_dir():
     pass
@@ -40,13 +40,13 @@ PREVIOUS = ""
 
 # build doc head
 current_date = datetime.now().strftime("%A %d %B %Y")
-doc = dominate.document(title="Hurry Asteroid")
+doc = dominate.document(title="Burnt Sky")
 with doc.head:
     raw('<meta charset="UTF-8">')
     raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
     link(rel="stylesheet", href="style.css")
-    doc += h1("Hurry Asteroid")
-    doc += p(current_date)
+    doc += h1("Burnt Sky")
+    doc += p("A bluesky reader")
 
 with open(data_path / "users.txt", encoding="utf-8") as file:
     for line in file:
@@ -94,5 +94,5 @@ doc += footer("⁂")
 # print(doc)
 
 # create file
-with open("hurryasteroid.html", "w", encoding="utf-8") as outputFile:
+with open("burntsky.html", "w", encoding="utf-8") as outputFile:
     outputFile.write(doc.render())

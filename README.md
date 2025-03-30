@@ -1,6 +1,6 @@
-# Hurry Asteroid
+# Burnt Sky
 
-Hurry Asteroid is a minimal Bluesky viewer in a static webpage. 
+A minimal Bluesky viewer in a static web page.
 
 It uses Python and RSS.
 
@@ -22,19 +22,19 @@ Run `install.sh`
 Add user feed with:
 
 ```
-hurryasteroid https://bsky.app/profile/exampleuser.bsky.social
+burntsky https://bsky.app/profile/exampleuser.bsky.social
 ```
 
-Build page with:
+Build page in current directory with:
 
 ```
-hurryasteroid
+burntsky
 ```
 
 Schedule with something like:
 
 ```
-0 6-22 * * *  hurryasteroid
+0 6-22 * * *  burntsky
 ```
 
 This sets cron to run hourly during waking hours (6-10). No need running it when you're
@@ -59,10 +59,10 @@ A: No. And not likely in the future.
 Q: I get an error when adding @coolexample.user?\
 A: They may be limiting their visibility. Can you
 view the account when not logged in? If not, it won't
-visible in Hurry Asteroid either.
+visible in Burnt Sky either.
 
 Q: How I do I remove a user?\
-A: edit `~/.config/hurryasteroid/users.txt`
+A: edit `~/.config/burntsky/users.txt`
 
 Q: Can I use this with a web server?\
 A: Absolutely. But don't ask me how.
