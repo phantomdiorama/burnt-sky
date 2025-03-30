@@ -54,7 +54,7 @@ with open(data_path / "users.txt", encoding="utf-8") as file:
         d = feedparser.parse(short_line[1].strip())
         rss_title = d.feed.title.split(".")
         file_title = rss_title[0].strip("@ ")
-        skeet_pub = d.entries[0].published.strip("0+ ")
+        skeet_pub = d.entries[0].published.removesuffix(" +0000")
         skeet_link = d.entries[0].link
         # bail early
         if "summary" not in d.entries[0]:
@@ -88,6 +88,7 @@ doc += footer(
     "Version 0.1 - ",
     a("Github", href="https://github.com/phantomdiorama/hurryasteroid"),
 )
+doc += footer("⁂")
 
 # debug output
 # print(doc)
