@@ -51,7 +51,7 @@ Also you shouldn't run this more frequently than hourly. Be kind.
 ## FAQ
 
 Q: What is displayed?\
-A: Posts and quoted posts. This is equivalent to the Only Posts feed.
+A: Posts and quoted posts (labelled with a 🅠). This is equivalent to the Only Posts feed.
 
 Q: Images?\
 A: No. And not likely in the future.
