@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Burnt Sky"""
 
+import asyncio
 import sys
 from pathlib import Path
 import httpx
@@ -38,9 +39,45 @@ if len(sys.argv) == 2:
     addUser(sys.argv[1])
     sys.exit()
 
+#########################
+# async stuff
+#########################
+
+
+async def get_async(url):
+    async with httpx.AsyncClient() as client:
+        return await client.get(url)
+
+
+urls = []
+blusers = []
+
+with open(data_path / "users.txt") as file:
+    for line in file:
+        short_line = line.split(" ")
+        urls.append(short_line[1].strip())
+
+
+async def launch():
+    resps = await asyncio.gather(*map(get_async, urls))
+    data = [resp for resp in resps]
+    for html in data:
+        blusers.append(html)
+        # print(html)
+        # filename = str(uuid.uuid4())
+        # with open(dump_path / filename, "w") as f:
+        #     f.write(str(html))
+
+
+asyncio.run(launch())
+
+#########################
+#########################
+
 
 # build out document
 def buildWebpage():
+    print("Running...")
     last_up = ""
     quote_post = "[contains quote post or other embedded content]"
     quote_char = "🅠"
@@ -51,36 +88,37 @@ def buildWebpage():
         link(rel="stylesheet", href="style.css")
         doc += h1("Burnt Sky")
         doc += p("A bluesky reader")
-    with open(data_path / "users.txt", encoding="utf-8") as file:
-        for line in file:
-            short_line = line.split(" ")
-            d = feedparser.parse(short_line[1].strip())
-            rss_title = d.feed.title.split(".")
-            file_title = rss_title[0].strip("@ ")
-            skeet_pub = d.entries[0].published.removesuffix(" +0000")
-            skeet_link = d.entries[0].link
-            # bail early post has no text
-            if "summary" not in d.entries[0]:
+    # with open(data_path / "users.txt", encoding="utf-8") as file:
+    #     for line in file:
+    #         short_line = line.split(" ")
+    for i in blusers:
+        d = feedparser.parse(i)
+        rss_title = d.feed.title.split(".")
+        file_title = rss_title[0].strip("@ ")
+        skeet_pub = d.entries[0].published.removesuffix(" +0000")
+        skeet_link = d.entries[0].link
+        # bail early post has no text
+        if "summary" not in d.entries[0]:
+            continue
+        else:
+            # check if post has been seen
+            data_file = data_path / file_title
+            if Path(data_file).is_file():
+                with open(Path(data_file), "r", encoding="utf-8") as dataRead:
+                    last_up = dataRead.read()
+            if d.entries[0].link == last_up:
                 continue
+            # add post to document
             else:
-                # check if post has been seen
-                data_file = data_path / file_title
-                if Path(data_file).is_file():
-                    with open(Path(data_file), "r", encoding="utf-8") as dataRead:
-                        last_up = dataRead.read()
-                if d.entries[0].link == last_up:
-                    continue
-                # add post to document
-                else:
-                    skeet_text = d.entries[0].summary
-                    doc += h2(rss_title[0])
-                    doc += p(a(skeet_pub, href=skeet_link))
-                    doc += p(skeet_text.replace(quote_post, quote_char))
-                    with open(Path(data_file), "w", encoding="utf-8") as db:
-                        db.write(d.entries[0].link)
+                skeet_text = d.entries[0].summary
+                doc += h2(rss_title[0])
+                doc += p(a(skeet_pub, href=skeet_link))
+                doc += p(skeet_text.replace(quote_post, quote_char))
+                with open(Path(data_file), "w", encoding="utf-8") as db:
+                    db.write(d.entries[0].link)
     # if no posts
     if "h2" not in doc:
-        print(h2)
+        print("Nobody has posted")
         doc += h2("Nobody has posted")
         doc += p("Or the world has ended")
     # finally add footer
