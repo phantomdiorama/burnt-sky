@@ -3,10 +3,10 @@
 # get rss feed from handle
 
 import sys
-import requests
+import httpx
 from bs4 import BeautifulSoup
 
-profile = requests.get(sys.argv[1], timeout=5)
+profile = httpx.get(sys.argv[1], timeout=5)
 soup = BeautifulSoup(profile.text, "html.parser")
 did = soup.find(id="bsky_did")
 handle = soup.find(id="bsky_handle")

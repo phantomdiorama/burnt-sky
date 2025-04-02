@@ -8,7 +8,7 @@ It is a *work-in-progress*
 
 ## Requirements
 
-- [Requests](https://docs.python-requests.org/en/latest/index.html)
+- [httpx](https://www.python-httpx.org/)
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/)
 - [Feed Parser](https://feedparser.readthedocs.io/)
 - [Dominate](https://github.com/Knio/dominate/)

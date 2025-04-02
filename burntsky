@@ -3,7 +3,7 @@
 
 import sys
 from pathlib import Path
-import requests
+import httpx
 from bs4 import BeautifulSoup
 import feedparser
 import dominate
@@ -22,7 +22,7 @@ else:
 
 # add user feed
 def addUser(url):
-    profile = requests.get(url, timeout=5)
+    profile = httpx.get(url, timeout=5)
     soup = BeautifulSoup(profile.text, "html.parser")
     did = soup.find(id="bsky_did")
     handle = soup.find(id="bsky_handle")
