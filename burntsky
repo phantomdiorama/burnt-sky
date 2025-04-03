@@ -11,7 +11,7 @@ import dominate
 from dominate.tags import a, footer, h1, h2, hr, link, p
 from dominate.util import raw
 
-# first create data folder if needed
+### check data folder ###
 data_path = Path.home() / ".config" / "burntsky"
 
 if data_path.is_dir():
@@ -21,7 +21,7 @@ else:
     print("data path created")
 
 
-# add user feed
+### add user feed ###
 def addUser(url):
     profile = httpx.get(url, timeout=5)
     soup = BeautifulSoup(profile.text, "html.parser")
@@ -39,11 +39,7 @@ if len(sys.argv) == 2:
     addUser(sys.argv[1])
     sys.exit()
 
-#########################
-# async stuff
-#########################
-
-
+### request feeds ###
 async def get_async(url):
     async with httpx.AsyncClient() as client:
         return await client.get(url)
@@ -63,19 +59,12 @@ async def launch():
     data = [resp for resp in resps]
     for html in data:
         blusers.append(html)
-        # print(html)
-        # filename = str(uuid.uuid4())
-        # with open(dump_path / filename, "w") as f:
-        #     f.write(str(html))
 
 
 asyncio.run(launch())
 
-#########################
-#########################
 
-
-# build out document
+### parse feeds and build out document ###
 def buildWebpage():
     print("Running...")
     last_up = ""
@@ -88,9 +77,6 @@ def buildWebpage():
         link(rel="stylesheet", href="style.css")
         doc += h1("Burnt Sky")
         doc += p("A bluesky reader")
-    # with open(data_path / "users.txt", encoding="utf-8") as file:
-    #     for line in file:
-    #         short_line = line.split(" ")
     for i in blusers:
         d = feedparser.parse(i)
         rss_title = d.feed.title.split(".")
