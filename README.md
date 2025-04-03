@@ -8,10 +8,19 @@ It is a *work-in-progress*
 
 ## Requirements
 
-- [httpx](https://www.python-httpx.org/)
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/)
-- [Feed Parser](https://feedparser.readthedocs.io/)
 - [Dominate](https://github.com/Knio/dominate/)
+- [Feed Parser](https://feedparser.readthedocs.io/)
+- [httpx](https://www.python-httpx.org/)
+
+On Debian:
+
+```
+sudo apt install python3-bs4 \
+python3-dominate \
+python3-feedparser \
+python3-httpx
+```
 
 ## Install
 
@@ -44,7 +53,7 @@ Also you shouldn't run this more frequently than hourly. Be kind.
 
 ## Future
 
-- [ ] Faster
+- [x] Faster (async?)
 - [ ] Muting (if not conflict with above)
 - [ ] Windows executable (depends how annoying to implement)
 
@@ -65,4 +74,4 @@ Q: How I do I remove a user?\
 A: edit `~/.config/burntsky/users.txt`
 
 Q: Can I use this with a web server?\
-A: Absolutely. But don't ask me how.
+A: Absolutely
