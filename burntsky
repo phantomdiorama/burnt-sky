@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Burnt Sky"""
 
+import re
+import time
 import asyncio
 import sys
 from pathlib import Path
@@ -67,26 +69,27 @@ asyncio.run(launch())
 ### parse feeds and build out document ###
 def buildWebpage():
     print("Running...")
+    curr_time = time.strftime("%H:%M", time.localtime())
     last_up = ""
-    quote_post = "[contains quote post or other embedded content]"
-    quote_char = "🅠"
+    quote_text = "[contains quote post or other embedded content]"
+    blank_char = ""
     doc = dominate.document(title="Burnt Sky")
     with doc.head:
         raw('<meta charset="UTF-8">')
         raw('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
         link(rel="stylesheet", href="style.css")
         doc += h1("Burnt Sky")
-        doc += p("A bluesky reader")
+        doc += p("A quiet bluesky reader")
+        doc += p("Updated: " + curr_time)
     for i in blusers:
         d = feedparser.parse(i)
-        rss_title = d.feed.title.split(".")
-        file_title = rss_title[0].strip("@ ")
-        skeet_pub = d.entries[0].published.removesuffix(" +0000")
-        skeet_link = d.entries[0].link
         # bail early post has no text
         if "summary" not in d.entries[0]:
             continue
         else:
+            rss_title = d.feed.title.split(".")
+            file_title = rss_title[0].strip("@ ")
+            skeet_link = d.entries[0].link
             # check if post has been seen
             data_file = data_path / file_title
             if Path(data_file).is_file():
@@ -94,12 +97,17 @@ def buildWebpage():
                     last_up = dataRead.read()
             if d.entries[0].link == last_up:
                 continue
-            # add post to document
             else:
+                # strip quotes and links
                 skeet_text = d.entries[0].summary
+                regex = re.compile(r"\b(http|www)\S+")
+                mo = regex.search(skeet_text)
+                if mo is not None:
+                    skeet_text = skeet_text.replace(mo.group(), blank_char)
+                skeet_text = skeet_text.replace(quote_text, blank_char)
+                # add post to document
                 doc += h2(rss_title[0])
-                doc += p(a(skeet_pub, href=skeet_link))
-                doc += p(skeet_text.replace(quote_post, quote_char))
+                doc += p(skeet_text, a("[link]", href=skeet_link))
                 with open(Path(data_file), "w", encoding="utf-8") as db:
                     db.write(d.entries[0].link)
     # if no posts
@@ -109,14 +117,7 @@ def buildWebpage():
         doc += p("Or the world has ended")
     # finally add footer
     doc += hr()
-    doc += footer(
-        "Version 0.1 - ",
-        a(
-            "Github",
-            href="https://github.com/phantomdiorama/burnt-sky",
-        ),
-    )
-    doc += footer("⁂")
+    doc += footer("Version 0.1")
     # write file
     with open("burntsky.html", "w", encoding="utf-8") as outputFile:
         outputFile.write(doc.render())
